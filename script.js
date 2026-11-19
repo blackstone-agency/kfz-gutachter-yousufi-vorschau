@@ -660,7 +660,7 @@ const I18N_DICT = {
   'Ihr unabhängiges KFZ-Sachverständigenbüro für Unfallgutachten nach unverschuldetem Unfall.': 'Your independent vehicle assessment office for accident reports after not-at-fault accidents.',
   'KFZ-Sachverständigenbüro Yousufi. Alle Rechte vorbehalten.': 'KFZ-Sachverständigenbüro Yousufi. All rights reserved.',
   'WhatsApp: 0176 84718552': 'WhatsApp: 0176 84718552',
-  'Vor-Ort-Service · Raum Nord': 'On-site service · Northern Germany',
+  'Vor-Ort-Service · Elmshorn & Norddeutschland': 'On-site service · Elmshorn & northern Germany',
   // Cookie
   'Keine Tracking-Cookies.': 'No tracking cookies.',
   'Diese Website kommt ohne Werbe- und Analyse-Cookies aus. Gespeichert wird nur technisch Notwendiges — etwa diese Auswahl. Details in der': 'This website works without advertising or analytics cookies. Only technically necessary data is stored — such as this choice. Details in the',
