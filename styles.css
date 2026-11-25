@@ -1243,14 +1243,13 @@ html.js .hx .reveal.in { transform: none; }
 }
 .lstg-more {
   margin-top: 1.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.85rem 1.25rem;
-  padding: 1.1rem 1.4rem;
+  padding: 1.15rem;
   border-radius: 1.4rem;
   border: 1px solid rgba(10, 24, 48, 0.08);
+  background: rgba(255, 255, 255, 0.5);
 }
+@media (min-width: 768px) { .lstg-more { padding: 1.4rem 1.5rem; } }
+.lstg-more-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.4rem 1.25rem; margin-bottom: 0.95rem; }
 .lstg-more-title {
   font-size: 0.7rem;
   font-weight: 600;
@@ -1258,29 +1257,8 @@ html.js .hx .reveal.in { transform: none; }
   letter-spacing: 0.22em;
   color: rgba(10, 24, 48, 0.62);
 }
-.lstg-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.lstg-chips a {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.4rem 0.85rem;
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: rgba(10, 24, 48, 0.72);
-  background: rgba(10, 24, 48, 0.035);
-  border: 1px solid rgba(10, 24, 48, 0.1);
-  transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
-}
-.lstg-chips a:hover { background: #fff; color: var(--navy-900); border-color: rgba(193, 18, 31, 0.3); }
-.lstg-more-hint { margin-left: auto; font-size: 0.875rem; color: rgba(10, 24, 48, 0.62); }
-@media (max-width: 767px) { .lstg-more-hint { margin-left: 0; } }
+.lstg-more-hint { font-size: 0.875rem; color: rgba(10, 24, 48, 0.62); }
 
-/* Leistungsseite: weitere Gutachten als ruhige Liste statt großer Karten */
-.lstg-list { display: grid; gap: 0; }
-@media (min-width: 768px) { .lstg-list { grid-template-columns: 1fr 1fr; column-gap: 2.5rem; } }
-.lstg-list li { padding: 1.1rem 0; border-top: 1px solid rgba(10, 24, 48, 0.08); }
-.lstg-list h3 { font-weight: 700; color: var(--navy-900); }
-.lstg-list p { margin-top: 0.3rem; font-size: 0.875rem; line-height: 1.6; color: rgba(10, 24, 48, 0.66); }
 
 /* Helles Theme */
 html.theme-light .hx-btn--wa { background: rgba(10, 24, 48, 0.06); border-color: rgba(10, 24, 48, 0.16); color: #0a1830; }
@@ -1291,4 +1269,76 @@ html.theme-light .lstg-cta { background: rgba(255, 255, 255, 0.7); border-color:
 /* Tippflächen ≥ 44 px auf Touch-Geräten (Telefonnummer in der Kontaktkarte, Leistungs-Chips) */
 .hx-card .phone-mega { padding-block: 0.3rem; }
 .hx-card .phone-mega.link-sweep::after { bottom: 0; }
-@media (pointer: coarse) { .lstg-chips a { min-height: 2.75rem; } }
+
+/* Weitere Gutachten: ruhige Kacheln mit Icon (Start- und Leistungsseite) --------
+   Sichtbar und hochwertig, aber klar kleiner als der Schwerpunkt Unfallgutachten. */
+.svc-tiles { display: grid; gap: 0.6rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 480px) {
+  .svc-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .svc-tiles > li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (min-width: 1024px) {
+  .svc-tiles { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.75rem; }
+  .svc-tiles > li:last-child:nth-child(odd) { grid-column: auto; }
+}
+.svc-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  height: 100%;
+  min-height: 3.5rem;
+  padding: 0.7rem 0.9rem 0.7rem 0.7rem;
+  border-radius: 1rem;
+  background: #fff;
+  border: 1px solid rgba(10, 24, 48, 0.08);
+  color: var(--navy-900);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.svc-tile:hover { transform: translateY(-2px); border-color: rgba(193, 18, 31, 0.28); box-shadow: 0 16px 34px -22px rgba(10, 24, 48, 0.35); }
+.svc-ico { flex: none; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 0.75rem; background: rgba(193, 18, 31, 0.08); color: var(--accent); }
+
+/* Leistungsseite: Kacheln mit Kurzbeschreibung, 3 + 2 mittig */
+.svc-tiles--detail { grid-template-columns: 1fr; gap: 0.9rem; }
+.svc-tiles--detail > li:last-child:nth-child(odd) { grid-column: auto; }
+@media (min-width: 640px) {
+  .svc-tiles--detail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .svc-tiles--detail > li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (min-width: 1024px) {
+  .svc-tiles--detail { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; }
+  .svc-tiles--detail > li, .svc-tiles--detail > li:last-child:nth-child(odd) { grid-column: span 2; }
+  .svc-tiles--detail > li:nth-child(4) { grid-column: 2 / span 2; }
+  .svc-tiles--detail > li:nth-child(5) { grid-column: 4 / span 2; }
+}
+.svc-card {
+  height: 100%;
+  padding: 1.2rem 1.25rem 1.3rem;
+  border-radius: 1.25rem;
+  background: #fff;
+  border: 1px solid rgba(10, 24, 48, 0.08);
+}
+.svc-card-head { display: flex; align-items: center; gap: 0.75rem; }
+.svc-card h3 { font-weight: 700; font-size: 1rem; line-height: 1.3; color: var(--navy-900); }
+.svc-card p { margin-top: 0.6rem; font-size: 0.875rem; line-height: 1.6; color: rgba(10, 24, 48, 0.66); }
+.svc-label { min-width: 0; overflow-wrap: break-word; }
+/* Pfeil zeigt: Kachel ist ein Link */
+.svc-tile::after {
+  content: "";
+  flex: none;
+  margin-left: auto;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.35;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.svc-tile:hover::after { opacity: 0.8; transform: translateX(2px) rotate(45deg); }
+@media (min-width: 1024px) {
+  .svc-tile::after { display: none; }
+  .svc-tile { padding-right: 0.8rem; }
+}

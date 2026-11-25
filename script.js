@@ -731,7 +731,7 @@ const I18N_DICT = {
   'Ca. 30–60 Minuten': 'Approx. 30–60 minutes', 'Gutachten': 'Report',
   'Präzise Ausarbeitung aller Schäden, Werte und Ansprüche — gerichtsfest und nachvollziehbar.': 'Precise preparation of all damage, values and claims — court-proof and transparent.',
   'In wenigen Werktagen': 'Within a few working days', 'Abwicklung': 'Settlement',
-  'Versand an Versicherung und ggf. Anwalt — auf Wunsch übernehme ich die Kommunikation.': 'Sent to the insurer and lawyer if needed — on request I handle all communication.',
+  'Ich sende das Gutachten direkt an die Versicherung und ggf. an Ihren Anwalt — und übernehme die Kommunikation.': 'I send the report directly to the insurer and, if needed, to your lawyer — and handle all communication.',
   'Sie erhalten Ihr Geld': 'You receive your money', 'Den Ablauf im Detail ansehen →': 'View the process in detail →',
   // 03 Warum
   'Die Versicherung hat ihre Gutachter.': 'The insurer has its assessors.', 'Sie haben mich.': 'You have me.',
@@ -744,7 +744,7 @@ const I18N_DICT = {
   'Schnell vor Ort': 'Quickly on site', 'Begutachtung an Ihrem Wunschort, in der Regel binnen 24 Stunden.': 'Inspection wherever suits you, usually within 24 hours.',
   'Gerichtsfest': 'Court-proof', 'Dokumentation, die vor Gericht und gegenüber Versicherern Bestand hat.': 'Documentation that holds up in court and against insurers.',
   'Ein Unfall passiert nicht nach Termin — ich bin auch abends und am Wochenende da.': 'Accidents don’t keep office hours — I’m there evenings and weekends too.',
-  'Volle Abwicklung': 'Full settlement', 'Auf Wunsch übernehme ich die komplette Kommunikation mit der Versicherung.': 'On request I handle all communication with the insurer.',
+  'Volle Abwicklung': 'Full settlement', 'Ich reiche das Gutachten bei der Versicherung ein und übernehme die komplette Kommunikation.': 'I submit the report to the insurer and handle all communication.',
   'Über das Büro': 'About the office',
   // 04 Anspruchs-Check
   'Was steht Ihnen eigentlich zu?': 'What are you actually entitled to?',
@@ -838,7 +838,7 @@ const I18N_DICT = {
   'Erstellung des Gutachtens': 'Preparing the report',
   'Aus den Daten erstelle ich ein präzises, nachvollziehbares und gerichtsfestes Gutachten — mit Reparaturkosten, Wertminderung, Wiederbeschaffungs- und Restwert.': 'From the data I prepare a precise, transparent, court-proof report — with repair costs, diminished value, replacement and residual value.',
   'Abwicklung & Auszahlung': 'Settlement & payout',
-  'Sie erhalten Ihr Gutachten und reichen es bei der Versicherung ein. Auf Wunsch unterstütze ich Sie bei der Kommunikation, damit Sie schnell zu Ihrem Recht kommen.': 'You receive your report and submit it to the insurer. On request I support you with all communication so you get your due quickly.',
+  'Ich reiche Ihr Gutachten direkt bei der gegnerischen Versicherung ein und übernehme die komplette Kommunikation — Sie müssen nichts selbst einreichen. Eine Kopie erhalten Sie selbstverständlich auch.': 'I submit your report directly to the opposing insurer and handle all communication — you don’t have to submit anything yourself. You of course receive a copy as well.',
   'Dauer: ca. 30–60 Minuten': 'Duration: approx. 30–60 minutes', 'Fertig in wenigen Werktagen': 'Ready within a few working days',
   // Leistungen-Seite Karten
   'Unfallgutachten (Haftpflicht)': 'Accident report (liability)',
