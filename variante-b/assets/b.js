@@ -58,6 +58,7 @@ const canvas = emblem?.querySelector('canvas');
 if (canvas && typeof canvas.getContext === 'function') {
   import('./lit.js').then(({ litEmblem }) => {
     const light = litEmblem(canvas, {
+      paused: root.classList.contains('is-still'),
       src: canvas.dataset.src,
       reduced: RM,
       onFirstFrame: () => emblem.classList.add('is-lit'),
@@ -71,6 +72,7 @@ if (canvas && typeof canvas.getContext === 'function') {
     };
     document.querySelectorAll('.hero .cta--call').forEach((el) => bind(el, { x: 0.95, y: -0.15 }));
     document.querySelectorAll('.hero .cta--wa').forEach((el) => bind(el, { x: -0.95, y: -0.15 }));
+    window.__litEmblem = light;
   }).catch(() => { /* Fallback-Bild bleibt stehen */ });
 }
 
@@ -101,7 +103,7 @@ const scan = document.querySelector('[data-scan]');
 if (scan) {
   const steps = [...scan.querySelectorAll('.scan-step')];
   const spots = [...scan.querySelectorAll('.hs')];
-  const out = scan.querySelector('[data-total]');
+  const outs = [...scan.querySelectorAll('[data-total], [data-total-mini]')];
   let shown = 0;
   let anim = 0;
   const totals = [];
@@ -111,17 +113,18 @@ if (scan) {
   const setTotal = (value) => {
     cancelAnimationFrame(anim);
     const from = shown;
-    if (RM || !out) { shown = value; if (out) out.textContent = euro(value); return; }
+    const put = (v) => outs.forEach((o) => { o.textContent = euro(v); });
+    if (RM || !outs.length) { shown = value; put(value); return; }
     const t0 = performance.now();
     const run = (now) => {
       const k = Math.min(1, (now - t0) / 700);
       const e = 1 - Math.pow(1 - k, 3);
-      out.textContent = euro(from + (value - from) * e);
+      put(from + (value - from) * e);
       if (k < 1) anim = requestAnimationFrame(run);
     };
     anim = requestAnimationFrame(run);
     shown = value;
-    setTimeout(() => { if (shown === value) out.textContent = euro(value); }, 760);
+    setTimeout(() => { if (shown === value) put(value); }, 760);
   };
 
   const activate = (idx) => {
@@ -139,7 +142,7 @@ if (scan) {
     }
   }, { rootMargin: '-42% 0px -42% 0px' });
   steps.forEach((s) => stepIo.observe(s));
-  if (out) out.textContent = euro(0);
+  outs.forEach((o) => { o.textContent = euro(0); });
 }
 
 /* ---- 03: Ablauf — Linie wächst mit den sichtbaren Schritten ------------ */
@@ -180,6 +183,17 @@ if (chkList) {
   boxes.forEach((b) => b.addEventListener('change', update));
   update();
 }
+
+/* ---- Bewegung anhalten (WCAG 2.2.2): Laufbänder, Pulse, Licht-Animation -- */
+document.querySelectorAll('[data-motion-toggle]').forEach((btn) => {
+  const label = btn.querySelector('[data-motion-label]');
+  btn.addEventListener('click', () => {
+    const still = root.classList.toggle('is-still');
+    btn.setAttribute('aria-pressed', String(still));
+    if (label) label.textContent = still ? 'Bewegung fortsetzen' : 'Bewegung anhalten';
+    window.__litEmblem?.setPaused(still);
+  });
+});
 
 /* ---- Jahr im Footer ----------------------------------------------------- */
 document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = String(new Date().getFullYear()); });

@@ -80,7 +80,7 @@ function offscreen(w, h) {
  * @param {{ src: string, reduced?: boolean, onFirstFrame?: () => void }} opts
  * @returns {{ setTarget: (v: {x:number,y:number}|null) => void, destroy: () => void }}
  */
-export function litEmblem(canvas, { src, reduced = false, onFirstFrame } = {}) {
+export function litEmblem(canvas, { src, reduced = false, paused = false, onFirstFrame } = {}) {
   const ctx = canvas.getContext('2d');
   const state = { cur: { x: 0.55, y: -0.1 }, target: null, raf: 0, visible: true, t0: performance.now() };
   let W = 0, H = 0, L = null, glow = null, core = null, refl = null, ready = false;
@@ -272,7 +272,7 @@ export function litEmblem(canvas, { src, reduced = false, onFirstFrame } = {}) {
   }
 
   function start() {
-    if (reduced || state.raf || !ready) return;
+    if (reduced || paused || state.raf || !ready) return;
     state.raf = requestAnimationFrame(tick);
   }
 
@@ -309,6 +309,10 @@ export function litEmblem(canvas, { src, reduced = false, onFirstFrame } = {}) {
   document.addEventListener('visibilitychange', onVis);
 
   return {
+    setPaused(p) {
+      paused = Boolean(p);
+      if (paused) stop(); else start();
+    },
     setTarget(v) {
       state.target = v;
       if (reduced && ready) { state.cur = v || { x: 0.55, y: -0.1 }; draw(state.cur, 0); }

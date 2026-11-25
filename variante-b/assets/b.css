@@ -76,7 +76,10 @@ p { text-wrap: pretty; }
 strong { font-weight: 700; }
 ::selection { background: var(--red-deep); color: #fff; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 8px; }
-[id] { scroll-margin-top: 92px; }
+html { scroll-padding-top: 6rem; }
+@media (max-width: 1023px) { html { scroll-padding-top: 8rem; } }
+@media (max-width: 767px) { html { scroll-padding-bottom: 5.5rem; } }
+main:focus { outline: none; }
 .tnum { font-variant-numeric: tabular-nums; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .skip {
@@ -166,7 +169,7 @@ strong { font-weight: 700; }
 .brand { display: flex; align-items: center; gap: 0.7rem; min-height: 44px; }
 .brand img { height: 2.1rem; width: auto; }
 .brand-name { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1rem; line-height: 1; letter-spacing: -0.01em; }
-.brand-sub { display: block; margin-top: 0.3rem; font-size: 0.56rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-3); }
+.brand-sub { display: block; margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-3); }
 .nav-links { display: none; }
 @media (min-width: 960px) {
   .nav-links { display: flex; gap: 2rem; font-size: 0.92rem; font-weight: 500; color: var(--text-2); }
@@ -273,9 +276,9 @@ strong { font-weight: 700; }
 
 /* ---- 01 Problem: Aussage, die beim Scrollen aufleuchtet ---------------- */
 .statement { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 6.4vw, 4.6rem); line-height: 1.04; letter-spacing: -0.03em; max-width: 60rem; }
-html.js-ok .statement .w { opacity: 0.16; transition: opacity 0.55s var(--ease), color 0.55s var(--ease); }
-html.js-ok .statement .w.on { opacity: 1; }
-.statement .hl { color: var(--red-soft); }
+html.js-ok .statement .w { color: var(--text-3); transition: color 0.55s var(--ease); }
+html.js-ok .statement .w.on { color: var(--text); }
+.statement .hl, html.js-ok .statement .hl.on { color: var(--red-soft); }
 
 .vs { margin-top: clamp(2.5rem, 6vw, 4rem); display: grid; gap: 1rem; }
 @media (min-width: 768px) { .vs { grid-template-columns: 1fr 1fr; gap: 1.25rem; } }
@@ -329,7 +332,7 @@ html.js-ok .hs.on { opacity: 1; }
 @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.6); opacity: 0; } }
 .scan-total { margin-top: 0.6rem; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }
 .scan-total span { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
-.scan-total output { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.7rem, 6vw, 2.8rem); line-height: 1; color: var(--red-soft); font-variant-numeric: tabular-nums; }
+.scan-total strong { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.7rem, 6vw, 2.8rem); line-height: 1; color: var(--red-soft); font-variant-numeric: tabular-nums; }
 .scan-hint { margin-top: 0.4rem; font-size: 0.78rem; color: var(--text-3); }
 .scan-steps { display: grid; gap: 0.85rem; }
 .scan-step {
@@ -337,9 +340,8 @@ html.js-ok .hs.on { opacity: 1; }
   border: 1px solid var(--line); background: var(--surface);
   transition: opacity 0.5s var(--ease), border-color 0.5s var(--ease), background-color 0.5s var(--ease);
 }
-html.js-ok .scan-step { opacity: 0.45; }
 html.js-ok .scan-step.is-active { opacity: 1; border-color: rgba(230, 57, 70, 0.45); background: rgba(230, 57, 70, 0.08); }
-html.js-ok .scan-step.is-done { opacity: 0.8; }
+html.js-ok .scan-step:not(.is-active):not(.is-done) .amt { color: var(--text-3); }
 .scan-step-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
 .scan-step h3 { font-size: 1.2rem; }
 .scan-step .amt { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; white-space: nowrap; }
@@ -409,7 +411,7 @@ html.js-ok .scan-step--final.is-active { border-color: rgba(46, 204, 113, 0.6); 
 }
 .chk:hover { transform: translateY(-2px); border-color: var(--line-2); }
 .chk input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-.chk-box { flex: none; display: grid; place-items: center; width: 26px; height: 26px; margin-top: 1px; border-radius: 8px; border: 2px solid var(--line-2); color: #fff; transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease); }
+.chk-box { flex: none; display: grid; place-items: center; width: 26px; height: 26px; margin-top: 1px; border-radius: 8px; border: 2px solid rgba(255, 255, 255, 0.45); color: #fff; transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease); }
 .chk-box svg { opacity: 0; transform: scale(0.6); transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
 .chk input:checked + .chk-box { background: var(--red-deep); border-color: var(--red-deep); }
 .chk input:checked + .chk-box svg { opacity: 1; transform: none; }
@@ -442,8 +444,8 @@ html.js-ok .scan-step--final.is-active { border-color: rgba(46, 204, 113, 0.6); 
   font-family: var(--font-display); font-weight: 600; font-size: 1.06rem; line-height: 1.3;
 }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; flex: none; font-size: 1.6rem; line-height: 1; color: var(--red-soft); transition: transform 0.3s var(--ease); }
-.faq details[open] summary::after { transform: rotate(45deg); }
+.faq-plus { flex: none; font-size: 1.6rem; line-height: 1; color: var(--red-soft); transition: transform 0.3s var(--ease); }
+.faq details[open] .faq-plus { transform: rotate(45deg); }
 .faq .ans { padding: 0 1.25rem 1.2rem; font-size: 0.95rem; color: var(--text-2); }
 
 /* ---- 07 Abschluss: Anrufen -------------------------------------------- */
@@ -534,3 +536,41 @@ html.js .hero .rv { transform: translateY(14px); transition-duration: 0.65s; }
 @media (max-width: 479px) { .live-more { display: none; } }
 @media (max-width: 419px) { .brand-sub { display: none; } }
 @media (max-width: 1023px) { .scan-hint { font-size: 0.72rem; } .scan-total { margin-top: 0.4rem; padding-top: 0.55rem; } }
+
+/* ---- Bewegung anhalten (WCAG 2.2.2) ------------------------------------ */
+.hero-foot { position: absolute; inset: auto 0 0.55rem; z-index: 1; display: flex; align-items: center; gap: 0.75rem; padding-inline: var(--gutter); }
+.hero-foot .ticker { position: static; flex: 1; min-width: 0; }
+.motion-toggle {
+  flex: none; display: inline-flex; align-items: center; gap: 0.45rem;
+  min-height: 44px; padding: 0.4rem 0.85rem; border-radius: 999px;
+  border: 1px solid var(--line); background: rgba(5, 7, 13, 0.6); color: var(--text-2);
+  font: 600 0.72rem/1 var(--font-body); letter-spacing: 0.06em; cursor: pointer;
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.motion-toggle:hover { border-color: var(--line-2); color: var(--text); }
+.motion-toggle .i-play { display: none; }
+html.is-still .motion-toggle .i-play { display: inline; }
+html.is-still .motion-toggle .i-pause { display: none; }
+html.is-still *, html.is-still *::before, html.is-still *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .motion-toggle { display: none; } }
+
+/* ---- Mobil: schmale klebende Summenleiste statt großem Panel (2.4.11) -- */
+.scan-mini { display: none; }
+@media (max-width: 1023px) {
+  .scan-panel { position: static; }
+  .scan-mini {
+    position: sticky; top: 4.4rem; z-index: 3;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+    padding: 0.7rem 1rem; border-radius: 1rem;
+    border: 1px solid var(--line); background: rgba(10, 15, 28, 0.94);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  }
+  .scan-mini span { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+  .scan-mini strong { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; color: var(--red-soft); }
+}
+
+/* ---- Sehr schmale Displays (320 px): Anruf-Button nur als Icon -------- */
+@media (max-width: 359px) {
+  .nav-call { padding-inline: 0.8rem; }
+  .nav-call .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+}
