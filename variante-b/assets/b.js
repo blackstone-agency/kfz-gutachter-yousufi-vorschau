@@ -3,6 +3,7 @@
    Progressive Enhancement: Ohne JS ist alles sichtbar und bedienbar.
    ========================================================================== */
 const root = document.documentElement;
+const late = document.getAnimations?.().some((a) => a.animationName === 'rv-failsafe' && a.playState === 'finished');
 root.classList.add('js', 'js-ok');
 const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fmt = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -15,7 +16,7 @@ const revealIo = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
 document.querySelectorAll('.rv, [data-reveal]').forEach((el) => {
-  if (el.getBoundingClientRect().bottom < 0) el.classList.add('in');
+  if (late || el.getBoundingClientRect().bottom < 0) el.classList.add('in');
   else revealIo.observe(el);
 });
 
@@ -41,7 +42,8 @@ const abar = document.querySelector('.abar');
 if (abar) {
   abar.inert = true;
   if (heroCta && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
+    new IntersectionObserver((entries) => {
+      const entry = entries[entries.length - 1];
       const show = !entry.isIntersecting && entry.boundingClientRect.top < 0;
       abar.classList.toggle('is-on', show);
       abar.inert = !show;
@@ -56,7 +58,7 @@ if (abar) {
 const emblem = document.querySelector('.emblem');
 const canvas = emblem?.querySelector('canvas');
 if (canvas && typeof canvas.getContext === 'function') {
-  import('./lit.js').then(({ litEmblem }) => {
+  import('./lit.js?v=2').then(({ litEmblem }) => {
     const light = litEmblem(canvas, {
       paused: root.classList.contains('is-still'),
       src: canvas.dataset.src,
@@ -105,6 +107,7 @@ if (scan) {
   const spots = [...scan.querySelectorAll('.hs')];
   const outs = [...scan.querySelectorAll('[data-total], [data-total-mini]')];
   let shown = 0;
+  let disp = 0;
   let anim = 0;
   const totals = [];
   let sum = 0;
@@ -112,8 +115,8 @@ if (scan) {
 
   const setTotal = (value) => {
     cancelAnimationFrame(anim);
-    const from = shown;
-    const put = (v) => outs.forEach((o) => { o.textContent = euro(v); });
+    const from = disp;
+    const put = (v) => { disp = v; outs.forEach((o) => { o.textContent = euro(v); }); };
     if (RM || !outs.length) { shown = value; put(value); return; }
     const t0 = performance.now();
     const run = (now) => {
@@ -189,7 +192,6 @@ document.querySelectorAll('[data-motion-toggle]').forEach((btn) => {
   const label = btn.querySelector('[data-motion-label]');
   btn.addEventListener('click', () => {
     const still = root.classList.toggle('is-still');
-    btn.setAttribute('aria-pressed', String(still));
     if (label) label.textContent = still ? 'Bewegung fortsetzen' : 'Bewegung anhalten';
     window.__litEmblem?.setPaused(still);
   });

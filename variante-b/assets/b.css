@@ -190,6 +190,7 @@ main:focus { outline: none; }
 /* ---- Einstieg: Kontakt zuerst ----------------------------------------- */
 .hero {
   position: relative; isolation: isolate; overflow: hidden;
+  min-height: 100vh;
   min-height: 100svh;
   display: flex; align-items: center;
   padding: 5.75rem 0 4.5rem;
@@ -206,7 +207,7 @@ main:focus { outline: none; }
   .hero { padding-top: 7rem; }
   .hero-grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); align-items: center; gap: 1.5rem; }
 }
-.emblem { position: relative; order: -1; height: clamp(7.5rem, 19svh, 12rem); margin-inline: -1rem; }
+.emblem { position: relative; order: -1; height: 9rem; height: clamp(7.5rem, 19svh, 12rem); margin-inline: -1rem; }
 @media (min-width: 1024px) { .emblem { order: 0; height: auto; aspect-ratio: 1.35; margin: 0 -2rem 0 0; } }
 .emblem canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .emblem-fallback {
@@ -255,7 +256,7 @@ main:focus { outline: none; }
 /* Kleine Viewports (iPhone SE & Co.): Buttons bleiben im ersten Bildschirm */
 @media (max-height: 720px) and (max-width: 1023px) {
   .hero { padding-top: 5rem; }
-  .emblem { height: 13svh; }
+  .emblem { height: 13vh; height: 13svh; }
   .h1 { margin-top: 0.75rem; font-size: clamp(2.1rem, 9.4vw, 2.6rem); }
   .h1-sub { margin-top: 0.45rem; font-size: 1.3rem; }
   .hero .lead { font-size: 1rem; margin-top: 0.75rem; }
@@ -270,7 +271,7 @@ main:focus { outline: none; }
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   font-size: 0.7rem; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-3);
 }
-.ticker-track { flex: none; display: flex; gap: 2.2rem; padding-right: 2.2rem; white-space: nowrap; animation: slide 38s linear infinite; }
+.ticker-track { flex: none; display: flex; min-width: 100%; justify-content: space-around; gap: 2.2rem; padding-right: 2.2rem; white-space: nowrap; animation: slide 38s linear infinite; }
 .ticker-track span:nth-child(even) { color: var(--red-soft); }
 @keyframes slide { to { transform: translateX(-100%); } }
 
@@ -306,7 +307,7 @@ html.js-ok .in .bar i { transform: scaleX(var(--w, 1)); }
 .plus { margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; border-radius: 999px; background: rgba(230, 57, 70, 0.14); color: #ffd9dc; font-size: 0.85rem; font-weight: 700; }
 
 /* ---- 02 Schaden-Scan (Sticky-Story) ------------------------------------ */
-.scan { margin-top: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 1.25rem; }
+.scan { margin-top: clamp(2rem, 5vw, 3.5rem); display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
 @media (min-width: 1024px) { .scan { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 3.5rem; align-items: start; } }
 .scan-panel {
   position: sticky; top: 4.6rem; z-index: 2;
@@ -342,7 +343,8 @@ html.js-ok .hs.on { opacity: 1; }
 }
 html.js-ok .scan-step.is-active { opacity: 1; border-color: rgba(230, 57, 70, 0.45); background: rgba(230, 57, 70, 0.08); }
 html.js-ok .scan-step:not(.is-active):not(.is-done) .amt { color: var(--text-3); }
-.scan-step-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.scan-step-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.15rem 1rem; }
+.scan-step .amt { margin-left: auto; }
 .scan-step h3 { font-size: 1.2rem; }
 .scan-step .amt { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; white-space: nowrap; }
 .scan-step p { margin-top: 0.35rem; font-size: 0.93rem; color: var(--text-2); }
@@ -489,10 +491,10 @@ html.js-ok .scan-step--final.is-active { border-color: rgba(46, 204, 113, 0.6); 
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border-top: 1px solid var(--line);
-  transform: translateY(110%);
-  transition: transform 0.45s var(--ease);
+  transition: transform 0.45s var(--ease), visibility 0s linear 0.45s;
 }
-.abar.is-on { transform: none; }
+html.js-ok .abar:not(.is-on) { transform: translateY(110%); visibility: hidden; }
+.abar.is-on { transition: transform 0.45s var(--ease), visibility 0s; }
 .abar a { display: flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 3.5rem; font-weight: 700; color: #fff; }
 .abar .a-call { background: var(--red-deep); }
 .abar .a-wa { background: var(--wa-bar); }
@@ -515,7 +517,8 @@ html.js .rv.in { opacity: 1; transform: none; }
 /* Notfall: lädt b.js nicht, wird nach 2,5 s trotzdem alles sichtbar */
 html.js:not(.js-ok) .rv { animation: rv-failsafe 0.01s linear 2.5s forwards; }
 @keyframes rv-failsafe { to { opacity: 1; transform: none; } }
-html.js .hero .rv { transform: translateY(14px); transition-duration: 0.65s; }
+html.js .hero .rv { transition-duration: 0.65s; }
+html.js .hero .rv:not(.in) { transform: translateY(14px); }
 .d1 { transition-delay: 0.08s !important; }
 .d2 { transition-delay: 0.16s !important; }
 .d3 { transition-delay: 0.24s !important; }
@@ -530,7 +533,7 @@ html.js .hero .rv { transform: translateY(14px); transition-duration: 0.65s; }
 .section--alt { background: linear-gradient(180deg, var(--bg-2), var(--bg) 85%); border-top: 1px solid var(--line); }
 .kicker--center { justify-content: center; }
 .foot-phone { display: inline-block; margin-bottom: 0.5rem; font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; color: var(--text); }
-.foot-phone:hover { color: var(--red-soft); }
+.foot .foot-phone:hover { color: var(--red-soft); }
 .vs-list .x { color: var(--text-3); }
 .vs-list .ok { color: var(--red-soft); }
 @media (max-width: 479px) { .live-more { display: none; } }
@@ -577,3 +580,27 @@ html.is-still *, html.is-still *::before, html.is-still *::after { animation-pla
 .costbox .costbox-note { margin-top: 0.6rem; font-size: 0.75rem; line-height: 1.45; color: var(--text-3); }
 .foot .foot-nap { margin-top: 0.4rem; color: var(--text-2); }
 h3.more-title { font-family: var(--font-body); }
+
+/* (15) Schalter ohne JS ausblenden (er hätte keine Wirkung) */
+html:not(.js-ok) .motion-toggle { display: none; }
+/* (18) Rechtstexte: Abstände und Größen der übernommenen Hinweise */
+.legal ul + p { margin-top: 0.6rem; }
+.legal .text-sm { font-size: 0.9rem; }
+.legal .text-xs { font-size: 0.8rem; }
+/* (19) Sehr kleine Displays (320 × 568): Buttons bleiben im ersten Bildschirm */
+@media (max-height: 600px) and (max-width: 1023px) {
+  .emblem { height: 9vh; height: 9svh; }
+  .hero .lead { font-size: 0.95rem; }
+}
+/* (16) Druck: alles sichtbar, Navigation und Leisten weg */
+@media print {
+  html.js .rv { opacity: 1 !important; transform: none !important; }
+  html.js-ok .bar i { transform: scaleX(var(--w, 1)) !important; }
+  html.js-ok .bp { stroke-dashoffset: 0 !important; }
+  .abar, .nav, .hero-foot, body::after { display: none !important; }
+}
+/* Sehr schmale Displays (320 px): Headline zweizeilig, Status einzeilig */
+@media (max-width: 359px) {
+  .h1 { font-size: 8.4vw; }
+  .live { font-size: 0.6rem; letter-spacing: 0.12em; }
+}

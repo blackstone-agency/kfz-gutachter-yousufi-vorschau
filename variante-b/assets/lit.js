@@ -90,10 +90,12 @@ export function litEmblem(canvas, { src, reduced = false, paused = false, onFirs
 
   function build() {
     const rect = canvas.getBoundingClientRect();
-    if (!rect.width || !rect.height || !img.naturalWidth) return false;
+    if (!rect.width || !rect.height || !img.complete) return false;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.6);
-    W = canvas.width = Math.round(rect.width * dpr);
-    H = canvas.height = Math.round(rect.height * dpr);
+    const nw = Math.round(rect.width * dpr), nh = Math.round(rect.height * dpr);
+    if (L && nw === W && nh === H) return true; // (13) kein doppelter Aufbau
+    W = canvas.width = nw;
+    H = canvas.height = nh;
 
     // Logo einpassen: Platz für Halo rundum + Boden darunter
     let lw = W * 0.7;
@@ -265,14 +267,17 @@ export function litEmblem(canvas, { src, reduced = false, paused = false, onFirs
     if (!state.visible || document.hidden) return;
     const t = (now - state.t0) / 1000;
     const tgt = state.target || idleBias(t);
-    state.cur.x += (tgt.x - state.cur.x) * 0.045;
-    state.cur.y += (tgt.y - state.cur.y) * 0.045;
+    const k = 1 - Math.pow(0.955, Math.min(4, (now - (state.last ?? now)) / 16.67));
+    state.last = now;
+    state.cur.x += (tgt.x - state.cur.x) * k;
+    state.cur.y += (tgt.y - state.cur.y) * k;
     draw(state.cur, t);
     state.raf = requestAnimationFrame(tick);
   }
 
   function start() {
     if (reduced || paused || state.raf || !ready) return;
+    state.last = undefined;
     state.raf = requestAnimationFrame(tick);
   }
 
@@ -295,11 +300,15 @@ export function litEmblem(canvas, { src, reduced = false, paused = false, onFirs
   let resizeTimer = 0;
   const ro = new ResizeObserver(() => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { if (ready && build()) draw(state.cur, (performance.now() - state.t0) / 1000); }, 120);
+    resizeTimer = setTimeout(() => {
+      if (!ready) { if (img.complete) firstFrame(); return; }
+      if (build()) draw(state.cur, (performance.now() - state.t0) / 1000);
+    }, 120);
   });
   ro.observe(canvas);
 
-  const io = new IntersectionObserver(([entry]) => {
+  const io = new IntersectionObserver((entries) => {
+    const entry = entries[entries.length - 1];
     state.visible = entry.isIntersecting;
     if (state.visible) start(); else stop();
   });
